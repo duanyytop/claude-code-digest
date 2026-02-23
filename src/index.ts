@@ -127,29 +127,38 @@ async function main(): Promise<void> {
 
   const footer = autoGenFooter();
 
-  // ── 4. Save individual CLI reports ─────────────────────────────────────────
-
-  for (const d of cliDigests) {
-    const content =
-      `# ${d.config.name} 社区日报 ${dateStr}\n\n` +
-      `> 数据来源: [${d.config.repo}](https://github.com/${d.config.repo}) | 生成时间: ${utcStr} UTC\n\n` +
-      d.summary + footer;
-    console.log(`  Saved ${saveFile(content, dateStr, `${d.config.id}.md`)}`);
-  }
-
-  // ── 5. Save CLI comparison report (comparison.md) ──────────────────────────
+  // ── 4. Build merged CLI digest (comparison + per-tool details) ─────────────
 
   const repoLinks = cliDigests
-    .map((d) => `- [${d.config.name}](./${d.config.id}.md) — [${d.config.repo}](https://github.com/${d.config.repo})`)
+    .map((d) => `- [${d.config.name}](https://github.com/${d.config.repo})`)
     .join("\n");
-  const comparisonContent =
-    `# AI CLI 工具社区动态横向对比 ${dateStr}\n\n` +
-    `> 生成时间: ${utcStr} UTC\n\n` +
-    `## 覆盖工具\n\n${repoLinks}\n\n---\n\n` +
-    comparison + footer;
-  console.log(`  Saved ${saveFile(comparisonContent, dateStr, "comparison.md")}`);
 
-  // ── 6. Save OpenClaw report ────────────────────────────────────────────────
+  const toolSections = cliDigests
+    .map((d) => [
+      `<details>`,
+      `<summary><strong>${d.config.name}</strong> — <a href="https://github.com/${d.config.repo}">${d.config.repo}</a></summary>`,
+      ``,
+      d.summary,
+      ``,
+      `</details>`,
+    ].join("\n"))
+    .join("\n\n");
+
+  const digestContent =
+    `# AI CLI 工具社区动态日报 ${dateStr}\n\n` +
+    `> 生成时间: ${utcStr} UTC | 覆盖工具: ${cliDigests.length} 个\n\n` +
+    `${repoLinks}\n\n` +
+    `---\n\n` +
+    `## 横向对比\n\n` +
+    comparison +
+    `\n\n---\n\n` +
+    `## 各工具详细报告\n\n` +
+    toolSections +
+    footer;
+
+  console.log(`  Saved ${saveFile(digestContent, dateStr, "digest.md")}`);
+
+  // ── 5. Save OpenClaw report ────────────────────────────────────────────────
 
   const { issues: ocIssues, prs: ocPrs, releases: ocReleases } = fetchedOpenclaw;
   const openclawContent =
@@ -159,16 +168,10 @@ async function main(): Promise<void> {
     openclawSummary + footer;
   console.log(`  Saved ${saveFile(openclawContent, dateStr, "openclaw.md")}`);
 
-  // ── 7. Create GitHub issues ────────────────────────────────────────────────
+  // ── 6. Create GitHub issues ────────────────────────────────────────────────
 
   if (digestRepo) {
-    const cliIssueBody =
-      comparisonContent +
-      `\n\n## 各工具详细日报\n\n` +
-      cliDigests
-        .map((d) => `- **${d.config.name}**: [查看详细日报](https://github.com/${digestRepo}/blob/master/digests/${dateStr}/${d.config.id}.md)`)
-        .join("\n");
-    const cliUrl = await createGitHubIssue(`📊 AI CLI 工具社区动态日报 ${dateStr}`, cliIssueBody, "digest");
+    const cliUrl = await createGitHubIssue(`📊 AI CLI 工具社区动态日报 ${dateStr}`, digestContent, "digest");
     console.log(`  Created CLI issue: ${cliUrl}`);
 
     const openclawUrl = await createGitHubIssue(`🦞 OpenClaw 项目动态日报 ${dateStr}`, openclawContent, "openclaw");

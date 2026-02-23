@@ -62,33 +62,21 @@ Files are written to `digests/YYYY-MM-DD/`:
 
 | File | Content |
 |------|---------|
-| `claude-code.md` | Claude Code individual digest |
-| `codex.md` | OpenAI Codex individual digest |
-| `gemini-cli.md` | Gemini CLI individual digest |
-| `kimi-cli.md` | Kimi Code CLI individual digest |
-| `opencode.md` | OpenCode individual digest |
-| `qwen-code.md` | Qwen Code individual digest |
-| `openclaw.md` | OpenClaw project digest |
-| `comparison.md` | Cross-tool comparative analysis |
+| `digest.md` | Full CLI digest — cross-tool comparison + per-tool details (collapsible) |
+| `openclaw.md` | OpenClaw project digest (standalone) |
 
-Each per-tool digest (written in Chinese):
+`digest.md` structure (written in Chinese):
 ```
-## 今日速览        — Top highlights
-## 版本发布        — New releases (omitted if none)
-## 社区热点 Issues — 10 notable issues with context
-## 重要 PR 进展    — 10 important PRs
-## 功能需求趋势    — Feature request trends
-## 开发者关注点    — Developer pain points
-```
+## 横向对比
+  生态全景 / 活跃度对比表 / 共同需求 / 差异定位 / 趋势信号
 
-The comparative `index.md` covers:
-```
-## 生态全景           — Overall ecosystem overview
-## 各工具活跃度对比   — Activity table across all tools
-## 共同关注的功能方向 — Shared community feature requests
-## 差异化定位分析     — Positioning and focus differences
-## 社区热度与成熟度   — Community activity and maturity
-## 值得关注的趋势信号 — Industry trend signals
+## 各工具详细报告
+  <details> Claude Code    — 今日速览 / 热点 Issues / PR 进展 / 趋势
+  <details> OpenAI Codex   — ...
+  <details> Gemini CLI     — ...
+  <details> Kimi Code CLI  — ...
+  <details> OpenCode       — ...
+  <details> Qwen Code      — ...
 ```
 
 Historical digests are stored in [`digests/`](./digests/). Published issues are tagged [`digest`](../../issues?label=digest).
