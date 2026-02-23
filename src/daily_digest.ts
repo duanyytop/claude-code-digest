@@ -329,7 +329,7 @@ async function main(): Promise<void> {
   // 4. Save individual reports
   const footer = (repo: string) =>
     DIGEST_REPO
-      ? `\n\n---\n*本日报由 [claude-code-digest](https://github.com/${DIGEST_REPO}) 自动生成。*`
+      ? `\n\n---\n*本日报由 [ai-cli-radar](https://github.com/${DIGEST_REPO}) 自动生成。*`
       : "";
 
   for (const d of digests) {
