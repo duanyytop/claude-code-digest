@@ -1,87 +1,84 @@
 # OpenAI Codex 社区日报 2026-02-23
 
-> 数据来源: [openai/codex](https://github.com/openai/codex) | 生成时间: 2026-02-23 07:34 UTC
+> 数据来源: [openai/codex](https://github.com/openai/codex) | 生成时间: 2026-02-23 12:46 UTC
 
 # OpenAI Codex 社区动态日报 | 2026-02-23
 
 ## 今日速览
 
-今日社区活跃度极高，**Rust 版本 v0.105.0-alpha.13** 发布，多代理协作系统迎来多项关键修复。Windows 平台出现严重回归问题（TUI 输入失效、僵尸进程泛滥），同时社区强烈呼吁 LSP 原生集成与跨平台会话同步能力。
+今日社区活跃度极高，**50+ Issues 和 50+ PRs** 更新。核心焦点集中在 **TUI 稳定性修复**（steer 死锁、Windows 终端输入回归）、**多智能体工作流文档化**（agent teams 官方指南合并），以及 **VS Code 扩展体验优化**（聊天重命名、Timeline 集成）。Rust 核心版本 `0.105.0-alpha.13` 持续迭代，LSP 内置集成需求获 99 👍 成为长期热门。
 
 ---
 
 ## 版本发布
 
-### rust-v0.105.0-alpha.13
-- **标签**: 预发布版本
-- **链接**: https://github.com/openai/codex/releases/tag/rust-v0.105.0-alpha.13
-
-> 注：发布说明较为简略，建议关注后续详细更新日志。从关联 PR 推测，本版本可能包含多代理协作状态处理、zsh fork 工具重构等底层改进。
+| 版本 | 说明 |
+|:---|:---|
+| **rust-v0.105.0-alpha.13** | Rust 核心组件持续迭代，具体变更待 release note 补充 |
 
 ---
 
-## 社区热点 Issues（Top 10）
+## 社区热点 Issues（精选 10 条）
 
-| 优先级 | Issue | 核心问题 | 社区反应 |
-|:---|:---|:---|:---|
-| 🔴 **P0** | [#8745](https://github.com/openai/codex/issues/8745) **内置 LSP 集成** | 请求 CLI 自动检测并安装语言服务器，实现语言感知的智能编辑 | 👍 **99**，19 条评论，长期高票需求 |
-| 🔴 **P0** | [#12554](https://github.com/openai/codex/issues/12554) **僵尸进程泛滥** | macOS 上 Codex 闲置数天后仍产生数千僵尸进程 | 新建，严重系统资源泄漏 |
-| 🔴 **P0** | [#12542](https://github.com/openai/codex/issues/12542) **Windows TUI 输入回归** | v0.104.0 在 Windows Terminal 中无法处理输入，显示原始 ANSI 序列 | 7 条评论，影响基础可用性 |
-| 🟡 **P1** | [#12547](https://github.com/openai/codex/issues/12547) **文件修改后强制重读** | 用户修改文件后，Agent 应先重读再写入（Claude Code 已有功能） | 功能对标竞品，工作流安全 |
-| 🟡 **P1** | [#12551](https://github.com/openai/codex/issues/12551) **macOS SF Symbols 渲染失败** | 应用 UI 无法正确显示系统符号，显示为乱码 | 原生应用体验瑕疵 |
-| 🟡 **P1** | [#12548](https://github.com/openai/codex/issues/12548) **重连循环超时** | 流连接反复断开，最终 5/5 超时失败 | 网络稳定性问题 |
-| 🟡 **P1** | [#10492](https://github.com/openai/codex/issues/10492) **色盲无障碍支持** | 代码 diff 视图对红绿色盲用户不友好 | 👍 3，长期无障碍债务 |
-| 🟢 **P2** | [#12507](https://github.com/openai/codex/issues/12507) **CLI ↔ App 会话互通** | 请求在 CLI 和 macOS App 间无缝切换同一会话 | 跨平台工作流需求 |
-| 🟢 **P2** | [#12538](https://github.com/openai/codex/issues/12538) **`exec resume` 支持 `-o` 输出捕获** | 恢复会话时无法指定输出文件，只能管道重定向 | 自动化脚本场景 |
-| 🟢 **P2** | [#12522](https://github.com/openai/codex/issues/12522) **Ctrl+Tab 线程历史导航** | 请求类似浏览器的线程切换快捷键 | 效率提升需求 |
+| # | 标题 | 类型 | 关键度 | 社区反应 |
+|:---|:---|:---|:---|:---|
+| [#12572](https://github.com/openai/codex/issues/12572) | 🐛 [Linux Sandbox][Bubblewrap] bwrap: loopback: Failed RTM_NEWADDR on Ubuntu 24.04 — subagents cannot execute any commands | **Bug** | 🔴 高 | 全新报告，Ubuntu 24.04 沙箱网络初始化失败，阻断子智能体执行 |
+| [#12554](https://github.com/openai/codex/issues/12554) | Codex spawned 1000s of Zombies even after not being used for several days | **Bug** | 🔴 高 | 严重资源泄漏，macOS 上数千僵尸进程，影响系统稳定性 |
+| [#12542](https://github.com/openai/codex/issues/12542) | Regression: Codex CLI TUI no longer handles input on Windows Terminal (raw ANSI sequences shown) | **Bug** | 🔴 高 | Windows 终端输入处理回归，7 条评论紧急讨论 |
+| [#12519](https://github.com/openai/codex/issues/12519) | issue: Codex deleted my entire dev drive | **Bug** | 🔴 极高 | **数据安全事件**，递归删除误删整个驱动器，已关闭但需警示 |
+| [#8745](https://github.com/openai/codex/issues/8745) | Built-in LSP integration (auto-detect + auto-install) for Codex CLI to enable language-aware edits | **Enhancement** | 🟡 长期热门 | **99 👍**，社区最期待功能，语言感知编辑能力 |
+| [#12573](https://github.com/openai/codex/issues/12573) | Timeline‑Einträge in VS Code bei Verwendung von Codex | **Enhancement** | 🟢 新需求 | 德区用户，VS Code Timeline 集成，对标 GitHub Copilot |
+| [#12564](https://github.com/openai/codex/issues/12564) | VS Code Extension: Allow renaming task/thread titles to improve history navigation | **Enhancement** | 🟢 高频 | 聊天历史重命名，同日 2 条重复 issue（#12552），用户体验痛点 |
+| [#12563](https://github.com/openai/codex/issues/12563) | Feature Request: Add Intel Mac Support for Codex Desktop App | **Enhancement** | 🟢 新需求 | Intel Mac 用户被排除，硬件兼容性诉求 |
+| [#6824](https://github.com/openai/codex/issues/6824) | Real-Time Steering During Codex Runs (Similar to Claude Code) | **Enhancement** | 🟡 持续活跃 | **9 👍**，实时干预能力，与 Claude Code 竞争特性 |
+| [#11701](https://github.com/openai/codex/issues/11701) | Subagent configuration and orchestration | **Enhancement** | 🟢 已关闭 | **37 👍 58 评论**，子智能体配置需求，今日关闭引关注 |
 
 ---
 
-## 重要 PR 进展（Top 10）
+## 重要 PR 进展（精选 10 条）
 
-| 状态 | PR | 功能/修复 | 技术要点 |
+| # | 标题 | 作者 | 核心内容 |
 |:---|:---|:---|:---|
-| 🔄 **Open** | [#12555](https://github.com/openai/codex/pull/12555) | **MCP 策略解耦重构** | 将 MCP 策略构建与 escalate 服务器分离，支持 shell 执行流程复用 |
-| 🔄 **Open** | [#11871](https://github.com/openai/codex/pull/11871) | **RequestPermissions 功能** | 允许模型请求在沙箱中以额外权限运行命令（如写入特定文件夹） |
-| ✅ **Merged** | [#12553](https://github.com/openai/codex/pull/12553) | **view_image 返回图像内容** | Responses API 支持图像内容返回 |
-| 🔄 **Open** | [#12541](https://github.com/openai/codex/pull/12541) | **exec resume 支持 output-last-message 标志** | 修复 #12538，允许标志位于子命令后 |
-| 🔄 **Open** | [#12550](https://github.com/openai/codex/pull/12550) | **Ctrl+L 绑定 /clear** | TUI 快捷键优化 |
-| ✅ **Merged** | [#12532](https://github.com/openai/codex/pull/12532) | **空状态协作等待标记为失败** | CollabWaitingEnd 空 statuses 视为失败而非完成 |
-| ✅ **Merged** | [#12536](https://github.com/openai/codex/pull/12536) | **尊重 project_root_markers 配置** | 仓库根目录发现支持自定义标记（如 Sapling 的 .hg/.sl） |
-| ✅ **Merged** | [#12534](https://github.com/openai/codex/pull/12534) | **文档：agents.max_threads** | 多代理并发配置官方文档化（默认 6） |
-| ✅ **Merged** | [#12531](https://github.com/openai/codex/pull/12531) | **实验性 Agent Teams 工作流指南** | 新增 docs/agent-teams.md，涵盖生命周期、任务工具等 |
-| 🔄 **Open** | [#12523](https://github.com/openai/codex/pull/12523) | **Markdown 表格 Unicode 边框渲染** | TUI 中表格从原始管道符文本升级为框线绘制 |
+| [#12569](https://github.com/openai/codex/pull/12569) | fix(tui): queue steer Enter while final answer is still streaming to prevent dead state | @guidedways | **关键修复**：steer 模式下按 Enter 导致 TUI 死锁的竞态条件 |
+| [#12523](https://github.com/openai/codex/pull/12523) | feat(tui): render markdown tables with Unicode box-drawing borders | @fcoury | TUI 表格渲染优化，Unicode 边框替代原始管道符 |
+| [#12570](https://github.com/openai/codex/pull/12570) | feat: keep dead agents in the agent picker | @jif-oai | 智能体选择器保留已终止 agent，便于查看历史 |
+| [#12560](https://github.com/openai/codex/pull/12560) | app-server: Replay pending item requests on `thread/resume` | @euroelessar | 断线重连后恢复待处理请求，提升可靠性 |
+| [#12541](https://github.com/openai/codex/pull/12541) | Allow exec resume to parse output-last-message flag after command | @etraut-openai | 修复 `codex exec resume -o` 标志位解析顺序问题 |
+| [#12550](https://github.com/openai/codex/pull/12550) | feat(tui): hook up ctrl-l to /clear | @rakan-oai | Ctrl+L 快捷清屏，提升终端操作效率 |
+| [#12531](https://github.com/openai/codex/pull/12531) | docs: add experimental agent teams workflow guide | @Andyduck-ops | **官方文档**：多智能体团队工作流指南合并 |
+| [#12536](https://github.com/openai/codex/pull/12536) | core: Update repository root discovery to honor configured project markers | @peterdelevoryas | 支持 Sapling (`.sl`) 等非 Git 仓库标记 |
+| [#12532](https://github.com/openai/codex/pull/12532) | fix(collab): mark wait with empty statuses as failed | @Andyduck-ops | 协作等待空状态判定为失败，避免误导 |
+| [#12521](https://github.com/openai/codex/pull/12521) | fix(core) Move approved rules to env context | @dylan-hurd-oai | 权限规则从 developer message 移至环境上下文 |
 
 ---
 
 ## 功能需求趋势
 
-基于 50 条 Issues 分析，社区关注焦点集中在：
-
-| 方向 | 热度 | 代表需求 |
+| 方向 | 热度 | 典型 Issue |
 |:---|:---|:---|
-| **IDE/编辑器集成** | 🔥🔥🔥🔥🔥 | LSP 原生支持（#8745）、JetBrains 扩展（#4313）、VSCode 改进 |
-| **跨平台稳定性** | 🔥🔥🔥🔥🔥 | Windows TUI 回归（#12542）、Windows 沙盒（#10601）、僵尸进程（#12554） |
-| **会话管理** | 🔥🔥🔥🔥 | CLI↔App 互通（#12507）、会话重命名（#11705）、历史导航 |
-| **多代理系统** | 🔥🔥🔥🔥 | 团队工作流文档化、协作状态处理、max_threads 调优 |
-| **无障碍与体验** | 🔥🔥🔥 | 色盲友好 diff（#10492）、完成提示音（#3962）、SF Symbols 修复 |
-| **安全与沙盒** | 🔥🔥🔥 | 只读审批模式（#11915）、动态 API Key（#4484）、文件访问控制 |
+| **IDE 深度集成** | 🔥🔥🔥 | VS Code Timeline (#12573)、聊天重命名 (#12564)、外部链接安全 (#12561) |
+| **TUI 稳定性** | 🔥🔥🔥 | Steer 死锁 (#12569, #11008)、Windows 输入回归 (#12542)、僵尸进程 (#12554) |
+| **多智能体编排** | 🔥🔥🔥 | 官方文档落地 (#12531)、子 agent 配置 (#11701)、max_threads 文档化 (#12546) |
+| **沙箱安全** | 🔥🔥 | Ubuntu 24.04 网络故障 (#12572)、Windows 沙箱 (#10601)、误删驱动器 (#12519) |
+| **LSP 语言支持** | 🔥🔥 | 内置 LSP (#8745, 99👍)、代码感知编辑 |
+| **跨平台兼容** | 🔥 | Intel Mac (#12563)、Android Termux (#11809) |
+| **实时干预** | 🔥 | Claude Code 式 steering (#6824)、/rewind 检查点 (#12558) |
 
 ---
 
 ## 开发者关注点
 
-### 🔴 紧急痛点
-1. **Windows 平台质量滑坡** — v0.104.0 连续出现 TUI 输入失效、内存泄漏（~90GB）、僵尸进程等问题，严重影响生产力
-2. **进程生命周期管理** — 多个 Issue 报告 SSH 断开、后台终端、MCP 子进程等场景下的孤儿进程和资源泄漏
-
-### 🟡 高频需求
-3. **开发者体验闭环** — LSP 集成（#8745）持续高票，被视为与 Claude Code 竞争的关键差异化功能
-4. **配置发现性** — `agents.max_threads` 等参数长期隐藏于源码，社区通过 PR 推动文档化
-5. **跨客户端一致性** — CLI、App、VSCode 扩展之间的会话隔离造成工作流断裂
-
-### 🟢 生态建设
-6. **企业/团队场景** — Agent Teams 工作流从实验性功能向正式文档过渡，显示 OpenAI 对多代理编排的战略投入
+| 痛点类别 | 具体表现 | 代表 Issue |
+|:---|:---|:---|
+| **数据安全风险** | 递归删除误删整个驱动器，无回收站保护 | [#12519](https://github.com/openai/codex/issues/12519) |
+| **进程管理缺陷** | 僵尸进程泄漏、子 agent 无法执行、连接重连失败 | [#12554](https://github.com/openai/codex/issues/12554), [#12572](https://github.com/openai/codex/issues/12572), [#12548](https://github.com/openai/codex/issues/12548) |
+| **Windows 体验落差** | 终端输入回归、@文件名补全失效、沙箱配置困难 | [#12542](https://github.com/openai/codex/issues/12542), [#11079](https://github.com/openai/codex/issues/11079), [#10601](https://github.com/openai/codex/issues/10601) |
+| **IDE 扩展成熟度** | 聊天历史管理混乱、性能卡顿、认证问题 | [#12564](https://github.com/openai/codex/issues/12564), [#11975](https://github.com/openai/codex/issues/11975), [#5673](https://github.com/openai/codex/issues/5673) |
+| **可观测性不足** | 命令执行状态显示不完整、空状态误导 | [#12544](https://github.com/openai/codex/issues/12544), [#12549](https://github.com/openai/codex/pull/12549) |
 
 ---
-*本日报由 [claude-code-digest](https://github.com/duanyytop/claude-code-digest) 自动生成。*
+
+> 📌 **日报来源**: [openai/codex](https://github.com/openai/codex) | 数据时间: 2026-02-23
+
+---
+*本日报由 [ai-cli-radar](https://github.com/duanyytop/ai-cli-radar) 自动生成。*

@@ -1,58 +1,58 @@
 # Claude Code 社区日报 2026-02-23
 
-> 数据来源: [anthropics/claude-code](https://github.com/anthropics/claude-code) | 生成时间: 2026-02-23 07:34 UTC
+> 数据来源: [anthropics/claude-code](https://github.com/anthropics/claude-code) | 生成时间: 2026-02-23 12:46 UTC
 
 # Claude Code 社区动态日报 | 2026-02-23
 
 ## 今日速览
 
-今日社区活跃度较高，共更新 50 个 Issue 和 8 个 PR，无新版本发布。核心关注点集中在 **VS Code 扩展稳定性**（ARM64 崩溃、上下文显示异常）、**远程会话功能失效**（`&` 前缀失效）、**长上下文模型配额问题**（Opus 4.6 1M 上下文报错）三大方向。插件生态持续活跃，memory-bridge 和性能分析插件进入 PR 阶段。
+今日社区活跃度极高，共更新 50 个 Issues 和 8 个 PR。核心痛点集中在 **Agent Teams 稳定性**（EEXIST 错误、权限钩子失效）、**Windows 平台体验**（winget 升级破坏 PATH、控制台闪烁）以及 **Token 消耗优化**（MCP 截图累积、智能模型路由）。社区贡献者持续推动插件生态扩展，新增性能分析、内存桥接等实用插件。
 
 ---
 
 ## 社区热点 Issues
 
-| # | 标题 | 状态 | 核心问题 | 社区反应 | 链接 |
-|---|------|------|---------|---------|------|
-| **27820** | VS Code 扩展在 Windows ARM64 每 1-2 分钟崩溃（exit code 3） | 🔴 新增 | v2.1.47 更新后引入的严重稳定性问题，ProcessTransport 未就绪导致扩展宿主无响应 | 影响生产环境，用户反馈 4-5 个月稳定运行后突然崩溃 | [链接](https://github.com/anthropics/claude-code/issues/27820) |
-| **27828** | macOS 本地网络访问失败——缺失 Info.plist 导致 TCC 权限静默失败 | 🔴 新增 | 系统级权限配置缺陷，Claude Code CLI 无法触发本地网络授权弹窗 | 企业内网/本地开发场景受阻，需手动 workaround | [链接](https://github.com/anthropics/claude-code/issues/27828) |
-| **21371** | Chrome 扩展连接失败（tabs_context_mcp 返回未连接） | 🟡 持续 | Windows 平台浏览器扩展与 CLI 的 MCP 通道不稳定 | **57 👍，34 评论**，长期未解决，影响浏览器上下文工具 | [链接](https://github.com/anthropics/claude-code/issues/21371) |
-| **23472** | Opus 4.6 [1M 上下文] 返回"长上下文 beta 不可用" | 🟡 持续 | Max 订阅用户无法使用 1M 上下文功能，API 层面限制 | **12 👍，16 评论**，付费功能与承诺不符 | [链接](https://github.com/anthropics/claude-code/issues/23472) |
-| **27827** | Opus 4.6 1M 上下文模式下 Token 计量器卡 0% | 🔴 新增 | 与 #23472 相关的 UI 反馈问题，上下文用量无法可视化 | 加剧用户对配额系统的不信任 | [链接](https://github.com/anthropics/claude-code/issues/27827) |
-| **27005** / **26738** | `&` 前缀远程会话功能失效 | 🟡 持续 | 交互模式下 `&` 前缀被静默忽略，GitHub App 安装后触发 | **6 👍**，远程计算核心功能回归，影响多设备工作流 | [链接](https://github.com/anthropics/claude-code/issues/27005) |
-| **27814** | CLAUDE.md 每次工具调用重复注入（无会话去重） | 🔴 新增 | 项目级指令文件被重复加载，导致 Token 浪费和上下文污染 | 影响大型项目使用成本 | [链接](https://github.com/anthropics/claude-code/issues/27814) |
-| **24964** | Cowork 文件夹选择器限制主目录外路径 | 🟡 持续 | **42 👍，34 评论**，安全策略过度限制，符号链接/ junction 也被阻止 | 企业 monorepo、外接硬盘场景严重受限 | [链接](https://github.com/anthropics/claude-code/issues/24964) |
-| **27621** | Bash 工具输出重复导致 Token 消耗过高 | 🟡 新增 | 同一命令输出被多次传入上下文，计费效率问题 | 开发者关注成本控制 | [链接](https://github.com/anthropics/claude-code/issues/27621) |
-| **27819** | 自定义命令（/commit, /pr）在指令中指定时不执行 | 🔴 新增 | 用户定义的 Slash 命令在跨仓库批量操作中被忽略 | 自动化工作流可靠性问题 | [链接](https://github.com/anthropics/claude-code/issues/27819) |
+| # | 标题 | 类型 | 社区反应 | 重要性 |
+|---|------|------|---------|--------|
+| [#27390](https://github.com/anthropics/claude-code/issues/27390) | Claude Desktop: MCP servers fail with Protocol instance reuse error | 🐛 Bug | 👍 44, 💬 10 | **核心基础设施问题**。MCP 协议实例复用错误导致多个官方扩展（mcp-registry、Claude in Chrome）启动失败，影响桌面端核心体验 |
+| [#27665](https://github.com/anthropics/claude-code/issues/27665) | 智能模型路由缺失：Max 订阅者 93.8% Token 被路由到 Opus | ✨ Feature | 💬 2 | **成本优化关键**。作者通过二进制分析证实 Claude Code 缺乏自动模型路由，导致高阶用户严重超支。合并了 30+ 相关 Issue |
+| [#27869](https://github.com/anthropics/claude-code/issues/27869) | Chrome MCP 截图累积导致 Token 暴涨（5 轮对话消耗 17% Max 额度） | 🐛 Bug | 新上报 | **紧急成本问题**。MCP 截图未清理机制导致会话恢复时上下文爆炸，Max 用户实际可用轮次严重缩水 |
+| [#27870](https://github.com/anthropics/claude-code/issues/27870) | `claude --continue` SIGILL 崩溃（v2.1.49/50） | 🐛 Bug | 💬 1 | **稳定性回归**。Fedora 43 上可复现的非法指令崩溃，影响会话恢复核心功能 |
+| [#26554](https://github.com/anthropics/claude-code/issues/26554) | Cowork: virtiofs/Plan9 mount 失败后 RPC error -1 | 🐛 Bug | 👍 18, 💬 16 | **Windows 企业用户阻断**。Hyper-V 环境下文件系统挂载失败，影响 Windows 11 Pro 远程开发工作流 |
+| [#27863](https://github.com/anthropics/claude-code/issues/27863) | node_modules 存在时 Claude Code 被 OOM-killed | 🐛 Bug | 💬 1 | **Node 生态兼容性**。项目依赖目录触发内存耗尽，前端开发者高频场景 |
+| [#27865](https://github.com/anthropics/claude-code/issues/27865) | Shift/Ctrl/Cmd+Enter 换行失效，仅 Option+Enter 可用 | 🐛 Bug | 💬 1 | **UX 回归**。Claude Code Instructions 更新后键盘快捷键破坏，与 [#18886](https://github.com/anthropics/claude-code/issues/18886) 文档错误形成叠加问题 |
+| [#27860](https://github.com/anthropics/claude-code/issues/27860) | Agent Teams: TeamCreate 后 spawn teammates 报 EEXIST | 🐛 Bug | 新上报 | **多智能体系统稳定性**。Agent Teams 核心工作流阻塞错误 |
+| [#24317](https://github.com/anthropics/claude-code/issues/24317) | 多并发会话 OAuth refresh token 竞态条件导致频繁重认证 | 🐛 Bug | 👍 11, 💬 6 | **企业团队痛点**。多设备/多会话用户每日被迫重复登录 |
+| [#27867](https://github.com/anthropics/claude-code/issues/27867) | winget 升级后 claude.exe 移至 .local\bin 未更新 PATH | 🐛 Bug | 💬 1 | **Windows 分发渠道问题**。包管理器升级破坏命令行可用性 |
 
 ---
 
 ## 重要 PR 进展
 
-| # | 标题 | 状态 | 功能/修复内容 | 链接 |
-|---|------|------|------------|------|
-| **27140** | Add memory-bridge plugin for session context consolidation | 🟡 Open | **核心功能**：新增 `/bridge` 命令，在会话边界将学习成果持久化到 MEMORY.md/CLAUDE.md/skills；包含上下文接近自动压缩阈值时的警告钩子 | [链接](https://github.com/anthropics/claude-code/pull/27140) |
-| **27796** | fix: hookify plugin imports broken by versioned cache path | 🟡 Open | 修复 hookify 插件因版本化缓存目录结构导致的 Python 模块导入失败（`No module named 'hookify'`） | [链接](https://github.com/anthropics/claude-code/pull/27796) |
-| **27687** | feat: add cloud-synced CLAUDE.md client | 🟡 Open | **账户级功能**：实现跨设备同步的全局 CLAUDE.md（CLI/VS Code/移动端/Web），双向同步 + 冲突解决 | [链接](https://github.com/anthropics/claude-code/pull/27687) |
-| **27696** | Add Performance Analysis Plugin with 5 Specialized Agents | 🟡 Open | **插件生态**：性能分析插件，含算法复杂度分析、内存泄漏检测、并发验证、瓶颈识别、优化建议 5 个专业 Agent | [链接](https://github.com/anthropics/claude-code/pull/27696) |
-| **27717** | docs: Add missing frontmatter fields to command reference | 🟡 Open | 文档补全：添加 5 个官方文档已声明但参考文档缺失的 frontmatter 字段（`name`, `user-invocable`, `context`, `agent`, `hooks`） | [链接](https://github.com/anthropics/claude-code/pull/27717) |
-| **27680** | DOCS: Create CONTRIBUTING.md with contribution guidelines | 🟡 Open | 社区建设：建立贡献指南，提升仓库社区健康度（当前 PR 关闭率高，缺乏规范） | [链接](https://github.com/anthropics/claude-code/pull/27680) |
-| **27605** | fix: correct worktree handling bugs in clean_gone command | 🟡 Open | 修复 `clean_gone` 命令的两个 Git worktree 处理 bug：sed 前缀剥离不完整、grep 正则注入风险 | [链接](https://github.com/anthropics/claude-code/pull/27605) |
+| # | 标题 | 作者 | 功能/修复内容 |
+|---|------|------|--------------|
+| [#27796](https://github.com/anthropics/claude-code/pull/27796) | fix: hookify plugin imports broken by versioned cache path | @hmesfin | **关键修复**。解决 hookify 插件因版本化缓存目录导致的 Python 导入失败，影响所有基于 hookify 的插件 |
+| [#27687](https://github.com/anthropics/claude-code/pull/27687) | feat: add cloud-synced CLAUDE.md client | @samuelarogbonlo | **核心功能**。实现跨设备云同步的用户级全局指令（CLAUDE.md），解决 [#27489](https://github.com/anthropics/claude-code/issues/27489)，支持 CLI/VS Code/移动端双向同步 |
+| [#27140](https://github.com/anthropics/claude-code/pull/27140) | Add memory-bridge plugin for session context consolidation | @powerpig99 | **生态扩展**。会话边界结构化记忆固化，提供 `/bridge` 命令将学习成果持久化为 MEMORY.md/CLAUDE.md/skills |
+| [#23946](https://github.com/anthropics/claude-code/pull/23946) | feat(plugin): add destructive-command-guard plugin | @leszekszpunar | **安全工具**。PreToolUse 钩子拦截不可逆 Bash 命令（rm -rf /、危险 git 操作等）及代理策略文件篡改 |
+| [#27696](https://github.com/anthropics/claude-code/pull/27696) | Add Performance Analysis Plugin with 5 Specialized Agents | @murali-marimekala | **专业工具集**。性能分析插件含 5 个专项 Agent：瓶颈识别、算法复杂度分析、内存问题检测、并发验证、优化建议 |
+| [#27717](https://github.com/anthropics/claude-code/pull/27717) | docs: Add missing frontmatter fields to command reference | @shanmugamshnker | **文档补全**。补充官方文档存在但插件开发参考缺失的 5 个 frontmatter 字段（name, user-invocable, context, agent, hooks） |
+| [#27680](https://github.com/anthropics/claude-code/pull/27680) | DOCS: Create CONTRIBUTING.md with contribution guidelines | @hesreallyhim | **社区建设**。首次引入贡献指南，回应历史 PR 关闭率高的问题，提升社区健康度评分 |
 
 ---
 
 ## 功能需求趋势
 
-基于今日 50 个 Issue 分析，社区关注焦点呈现以下分布：
+基于今日 50 个 Issues 分析，社区关注焦点呈现以下梯队：
 
-| 方向 | 热度 | 典型诉求 |
-|------|------|---------|
-| **IDE 集成稳定性** | 🔥🔥🔥🔥🔥 | VS Code 扩展崩溃、上下文显示、ARM64 支持、Token 计量可视化 |
-| **远程/云端工作流** | 🔥🔥🔥🔥🔥 | `&` 前缀修复、会话恢复、自动重连、跨设备状态同步 |
-| **长上下文与配额透明** | 🔥🔥🔥🔥 | Opus 4.6 1M 上下文可用性、订阅配额实时显示、重置时间 API |
-| **上下文效率优化** | 🔥🔥🔥🔥 | CLAUDE.md 去重加载、内存重复文件、Bash 输出去重、Token 显示优化（千位分隔符） |
-| **企业/安全策略** | 🔥🔥🔥 | Cowork 目录限制放宽、本地网络权限、LSP 工具连接外部服务器 |
-| **浏览器工具生态** | 🔥🔥🔥 | Chrome 扩展连接可靠性、错误引导优化、MCP 协议稳定性 |
+| 优先级 | 方向 | 代表 Issue | 热度指标 |
+|--------|------|-----------|---------|
+| 🔥 **P0** | **Token 成本优化** | [#27665](https://github.com/anthropics/claude-code/issues/27665) 智能路由、[#27869](https://github.com/anthropics/claude-code/issues/27869) MCP 截图累积、[#19005](https://github.com/anthropics/claude-code/issues/19005) /release-notes 过滤 | 高阶付费用户核心诉求 |
+| 🔥 **P0** | **Agent Teams 稳定性** | [#27860](https://github.com/anthropics/claude-code/issues/27860) EEXIST、[#23983](https://github.com/anthropics/claude-code/issues/23983) 权限钩子失效、[#24316](https://github.com/anthropics/claude-code/issues/24316) 自定义 Agent 定义 | 多智能体工作流阻塞 |
+| 🔥 **P0** | **Windows 平台体验** | [#14828](https://github.com/anthropics/claude-code/issues/14828) 控制台闪烁、[#26554](https://github.com/anthropics/claude-code/issues/26554) Cowork 挂载失败、[#27867](https://github.com/anthropics/claude-code/issues/27867) winget PATH | 企业 Windows 用户流失风险 |
+| **P1** | **MCP 生态治理** | [#27390](https://github.com/anthropics/claude-code/issues/27390) 协议错误、[#7328](https://github.com/anthropics/claude-code/issues/7328) 工具过滤、[#4380](https://github.com/anthropics/claude-code/issues/4380) Per-agent 过滤 | 工具膨胀导致决策瘫痪 |
+| **P1** | **跨会话/跨设备状态** | [#27872](https://github.com/anthropics/claude-code/issues/27872) 全局技能存储、[#27687](https://github.com/anthropics/claude-code/pull/27687) 云同步 CLAUDE.md | 生产力连续性 |
+| **P2** | **输入体验国际化** | [#27857](https://github.com/anthropics/claude-code/issues/27857) 韩语 IME、[#27859](https://github.com/anthropics/claude-code/issues/27859) 非拉丁键盘布局 | 亚太用户增长 |
 
 ---
 
@@ -60,26 +60,29 @@
 
 ### 🔴 高频痛点
 
-1. **"幽灵功能"——远程会话失效**
-   - `&` 前缀功能在部分用户环境突然失效，与 GitHub App 安装存在关联，但根因未明
-   - 用户反馈："之前正常工作，更新后静默失效"，缺乏诊断工具
+1. **成本不可控**：Max 订阅者发现 93.8% Token 被硬编码路由到 Opus，缺乏按任务复杂度自动降级机制。社区呼吁公开路由策略或提供用户自定义规则。
 
-2. **配额系统的黑箱问题**
-   - Max 订阅用户无法使用承诺的 1M 上下文，错误信息模糊（"beta not available"）
-   - Token 计量器在关键场景（1M 上下文）显示 0%，加剧不信任
+2. **MCP "Token 黑洞"**：Chrome MCP 截图在会话恢复时全量加载，5 轮简单对话消耗 17% 月度额度。开发者要求截图懒加载或上下文隔离。
 
-3. **Windows 平台二等公民体验**
-   - ARM64 崩溃、PowerShell 逃逸、终端冻结、目录限制——Windows 开发者工具链成熟度显著落后于 macOS/Linux
+3. **Windows 二等公民**：winget 升级破坏 PATH、控制台窗口闪烁、Cowork 文件系统挂载失败——企业 Windows 开发者工作流多处断裂。
 
-### 🟡 成本敏感诉求
+4. **Agent Teams 半成品感**：EEXIST 竞态、子 Agent 权限绕过父级钩子、无法加载自定义 Agent 定义——多智能体核心场景稳定性不足。
 
-- **Token 效率**：重复加载 CLAUDE.md、Bash 输出重复、无会话去重机制直接导致计费膨胀
-- **状态可视化**：`statusLine` JSON 缺少订阅级数据，开发者无法构建自定义监控
+### 🟡 生态建设诉求
 
-### 🟢 生态建设信号
+- **插件发现与分发**：[#27872](https://github.com/anthropics/claude-code/issues/27872) 呼吁全局技能市场，避免每个项目重复造轮子
+- **官方插件审核**：社区贡献活跃（今日 8 PR 含 3 个插件），但缺乏官方收录标准和分发渠道
+- **调试可观测性**：OOM、GC 死亡螺旋等问题缺乏诊断工具，开发者被迫依赖系统级监控
 
-- 插件开发者活跃（memory-bridge、performance-analysis、hookify），但基础设施（CONTRIBUTING.md、稳定 API）滞后
-- 云同步 CLAUDE.md 进入 PR 阶段，预示 Anthropic 正推进账户级状态统一
+### 🟢 积极信号
+
+- 云同步 CLAUDE.md 进入 PR 阶段，跨设备一致性有望解决
+- 安全/性能专项插件涌现，社区自治生态成型
+- 贡献指南首次提出，降低参与门槛
 
 ---
-*本日报由 [claude-code-digest](https://github.com/duanyytop/claude-code-digest) 自动生成。*
+
+*数据来源：github.com/anthropics/claude-code | 生成时间：2026-02-23*
+
+---
+*本日报由 [ai-cli-radar](https://github.com/duanyytop/ai-cli-radar) 自动生成。*
