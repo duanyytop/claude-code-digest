@@ -62,10 +62,10 @@ Files are written to `digests/YYYY-MM-DD/`:
 
 | File | Content |
 |------|---------|
-| `digest.md` | Full CLI digest — cross-tool comparison + per-tool details (collapsible) |
+| `ai-cli.md` | Full CLI digest — cross-tool comparison + per-tool details (collapsible) |
 | `openclaw.md` | OpenClaw project digest (standalone) |
 
-`digest.md` structure (written in Chinese):
+`ai-cli.md` structure (written in Chinese):
 ```
 ## 横向对比
   生态全景 / 活跃度对比表 / 共同需求 / 差异定位 / 趋势信号

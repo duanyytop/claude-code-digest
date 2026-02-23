@@ -156,7 +156,7 @@ async function main(): Promise<void> {
     toolSections +
     footer;
 
-  console.log(`  Saved ${saveFile(digestContent, dateStr, "digest.md")}`);
+  console.log(`  Saved ${saveFile(digestContent, dateStr, "ai-cli.md")}`);
 
   // ── 5. Save OpenClaw report ────────────────────────────────────────────────
 
