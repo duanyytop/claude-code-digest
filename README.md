@@ -1,12 +1,25 @@
 # claude-code-digest
 
-A GitHub Actions workflow that runs every morning at 09:00 CST, fetches the latest issues, pull requests, and releases from [anthropics/claude-code](https://github.com/anthropics/claude-code), and publishes a Chinese-language daily digest as a GitHub Issue and a committed Markdown file.
+A GitHub Actions workflow that runs every morning at 09:00 CST, fetches the latest issues, pull requests, and releases from six major AI CLI tool repositories, and publishes Chinese-language daily digests as a GitHub Issue and committed Markdown files.
+
+## Tracked repositories
+
+| Tool | Repository |
+|------|-----------|
+| Claude Code | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
+| OpenAI Codex | [openai/codex](https://github.com/openai/codex) |
+| Gemini CLI | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) |
+| Kimi Code CLI | [MoonshotAI/kimi-cli](https://github.com/MoonshotAI/kimi-cli) |
+| OpenCode | [anomalyco/opencode](https://github.com/anomalyco/opencode) |
+| Qwen Code | [QwenLM/qwen-code](https://github.com/QwenLM/qwen-code) |
 
 ## Features
 
-- Fetches issues, pull requests, and releases updated in the last 24 hours
-- Summarizes community highlights, feature trends, and developer pain points using Claude
-- Publishes output as a GitHub Issue and commits a Markdown file to `digests/`
+- Fetches issues, pull requests, and releases updated in the last 24 hours across all repos
+- Generates a per-tool summary for each repository
+- Generates a cross-tool comparative analysis covering trends, feature overlap, and ecosystem positioning
+- Publishes a single GitHub Issue with the comparative report and links to individual digests
+- Commits all Markdown files to `digests/YYYY-MM-DD/`
 - Runs on a daily schedule via GitHub Actions; supports manual triggering
 
 ## Setup
@@ -45,17 +58,36 @@ npm start
 
 ## Output format
 
-Each digest follows this structure (written in Chinese):
+Files are written to `digests/YYYY-MM-DD/`:
 
+| File | Content |
+|------|---------|
+| `claude-code.md` | Claude Code individual digest |
+| `codex.md` | OpenAI Codex individual digest |
+| `gemini-cli.md` | Gemini CLI individual digest |
+| `kimi-cli.md` | Kimi Code CLI individual digest |
+| `opencode.md` | OpenCode individual digest |
+| `qwen-code.md` | Qwen Code individual digest |
+| `index.md` | Cross-tool comparative analysis |
+
+Each per-tool digest (written in Chinese):
 ```
-# Claude Code 社区日报 YYYY-MM-DD
-
-## 今日速览        — Top 2–3 highlights of the day
+## 今日速览        — Top highlights
 ## 版本发布        — New releases (omitted if none)
-## 社区热点 Issues — 3–5 notable issues with context
-## 重要 PR 进展    — 3–5 important PRs
-## 功能需求趋势    — Community feature request trends
-## 开发者关注点    — Common pain points and feedback
+## 社区热点 Issues — 10 notable issues with context
+## 重要 PR 进展    — 10 important PRs
+## 功能需求趋势    — Feature request trends
+## 开发者关注点    — Developer pain points
+```
+
+The comparative `index.md` covers:
+```
+## 生态全景           — Overall ecosystem overview
+## 各工具活跃度对比   — Activity table across all tools
+## 共同关注的功能方向 — Shared community feature requests
+## 差异化定位分析     — Positioning and focus differences
+## 社区热度与成熟度   — Community activity and maturity
+## 值得关注的趋势信号 — Industry trend signals
 ```
 
 Historical digests are stored in [`digests/`](./digests/). Published issues are tagged [`digest`](../../issues?label=digest).
