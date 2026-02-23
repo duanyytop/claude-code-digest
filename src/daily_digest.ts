@@ -213,7 +213,7 @@ async function main(): Promise<void> {
     .slice(0, 10);
 
   const baseUrl = process.env["ANTHROPIC_BASE_URL"] ?? "api.anthropic.com";
-  console.log(`[${now.toISOString()}] 开始抓取 ${TARGET_REPO} 动态 | endpoint: ${baseUrl} | model: ${MODEL}`);
+  console.log(`[${now.toISOString()}] Fetching ${TARGET_REPO} | endpoint: ${baseUrl} | model: ${MODEL}`);
 
   const [issuesRaw, prs, releases] = await Promise.all([
     fetchRecentItems("issues", since),
@@ -227,12 +227,12 @@ async function main(): Promise<void> {
   console.log(`  Issues: ${issues.length}, PRs: ${prs.length}, Releases: ${releases.length}`);
 
   if (!issues.length && !prs.length && !releases.length) {
-    console.log("过去24小时无新动态，跳过生成。");
+    console.log("No activity in the last 24 hours, skipping.");
     process.exit(0);
   }
 
   const prompt = buildPrompt(issues, prs, releases, dateStr);
-  console.log("  调用 LLM 生成摘要...");
+  console.log("  Calling LLM to generate summary...");
   const summary = await callLlm(prompt);
 
   const digestHeader =
@@ -245,14 +245,14 @@ async function main(): Promise<void> {
   const fullDigest = digestHeader + summary + digestFooter;
 
   const filepath = saveDigestFile(fullDigest, dateStr);
-  console.log(`  已保存到 ${filepath}`);
+  console.log(`  Saved to ${filepath}`);
 
   if (DIGEST_REPO) {
     const issueUrl = await createGitHubIssue(`📋 Claude Code 社区日报 ${dateStr}`, fullDigest);
-    console.log(`  已创建 Issue: ${issueUrl}`);
+    console.log(`  Created issue: ${issueUrl}`);
   }
 
-  console.log("完成!");
+  console.log("Done!");
 }
 
 main().catch((err) => {

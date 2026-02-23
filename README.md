@@ -1,36 +1,36 @@
-# Claude Code 社区日报
+# claude-code-digest
 
-每天早上 9:00 (CST) 自动抓取 [anthropics/claude-code](https://github.com/anthropics/claude-code) 的最新动态，用 Claude API 生成中文摘要，发布为 GitHub Issue 并存档到 `digests/` 目录。
+A GitHub Actions workflow that runs every morning at 09:00 CST, fetches the latest issues, pull requests, and releases from [anthropics/claude-code](https://github.com/anthropics/claude-code), and publishes a Chinese-language daily digest as a GitHub Issue and a committed Markdown file.
 
-## 功能
+## Features
 
-- **自动抓取** 过去 24 小时的 Issues、Pull Requests、Releases
-- **AI 摘要** 使用 Claude Opus 分析社区热点、功能趋势、开发者痛点
-- **双输出** 创建 GitHub Issue + 提交 Markdown 文件到仓库
-- **每日定时** 通过 GitHub Actions 定时运行，支持手动触发
+- Fetches issues, pull requests, and releases updated in the last 24 hours
+- Summarizes community highlights, feature trends, and developer pain points using Claude
+- Publishes output as a GitHub Issue and commits a Markdown file to `digests/`
+- Runs on a daily schedule via GitHub Actions; supports manual triggering
 
-## 快速开始
+## Setup
 
-### 1. Fork 本仓库
+### 1. Fork this repository
 
-### 2. 配置 Secrets
+### 2. Add Secrets
 
-在仓库 **Settings → Secrets and variables → Actions** 中添加：
+Go to **Settings → Secrets and variables → Actions** and add:
 
-| Secret | 说明 |
-|--------|------|
-| `ANTHROPIC_API_KEY` | API Key（Anthropic 或 Kimi Code 均可） |
-| `ANTHROPIC_BASE_URL` | API 地址，使用 Kimi Code 时填 `https://api.kimi.com/coding/`；使用 Anthropic 官方时留空 |
+| Secret | Description |
+|--------|-------------|
+| `ANTHROPIC_API_KEY` | API key — works with both Anthropic and Kimi Code |
+| `ANTHROPIC_BASE_URL` | API endpoint override. Set to `https://api.kimi.com/coding/` for Kimi Code; leave unset for Anthropic |
 
-> `GITHUB_TOKEN` 由 GitHub Actions 自动提供，无需手动配置。
+> `GITHUB_TOKEN` is provided automatically by GitHub Actions.
 
-### 3. 启用 Workflow
+### 3. Enable the workflow
 
-确认 **Actions** 标签页中 workflow 已启用。
+Confirm the workflow is enabled in the **Actions** tab.
 
-首次可在 **Actions → Daily Claude Code Digest → Run workflow** 手动触发测试。
+To test immediately, go to **Actions → Daily Claude Code Digest → Run workflow**.
 
-## 本地运行
+## Running locally
 
 ```bash
 npm install
@@ -38,47 +38,36 @@ npm install
 export GITHUB_TOKEN=ghp_xxxxx
 export ANTHROPIC_BASE_URL=https://api.kimi.com/coding/
 export ANTHROPIC_API_KEY=sk-kimi-xxxxxxxx
-export DIGEST_REPO=your-username/claude-code-digest  # 可选，不设置则只生成文件
+export DIGEST_REPO=your-username/claude-code-digest  # optional; omit to only write the file
 
 npm start
 ```
 
-## 输出示例
+## Output format
 
-每日报告结构：
+Each digest follows this structure (written in Chinese):
 
 ```
-# Claude Code 社区日报 2025-XX-XX
+# Claude Code 社区日报 YYYY-MM-DD
 
-## 今日速览
-...
-
-## 版本发布
-...
-
-## 社区热点 Issues
-...
-
-## 重要 PR 进展
-...
-
-## 功能需求趋势
-...
-
-## 开发者关注点
-...
+## 今日速览        — Top 2–3 highlights of the day
+## 版本发布        — New releases (omitted if none)
+## 社区热点 Issues — 3–5 notable issues with context
+## 重要 PR 进展    — 3–5 important PRs
+## 功能需求趋势    — Community feature request trends
+## 开发者关注点    — Common pain points and feedback
 ```
 
-历史存档见 [digests/](./digests/) 目录，GitHub Issues 见 [Issues 列表](../../issues?label=digest)。
+Historical digests are stored in [`digests/`](./digests/). Published issues are tagged [`digest`](../../issues?label=digest).
 
-## 定时设置
+## Schedule
 
-默认 `cron: "0 1 * * *"` = UTC 01:00 = **北京时间 09:00**。
+Default cron `"0 1 * * *"` = **01:00 UTC = 09:00 CST**.
 
-如需修改时区，编辑 `.github/workflows/daily-digest.yml` 中的 cron 表达式：
+To change the time, edit the cron expression in `.github/workflows/daily-digest.yml`:
 
-| 时间 (CST) | cron (UTC) |
-|-----------|------------|
-| 08:00 | `0 0 * * *` |
-| 09:00 | `0 1 * * *` |
-| 10:00 | `0 2 * * *` |
+| CST  | UTC cron       |
+|------|----------------|
+| 08:00 | `0 0 * * *`  |
+| 09:00 | `0 1 * * *`  |
+| 10:00 | `0 2 * * *`  |
