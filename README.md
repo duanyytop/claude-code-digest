@@ -1,6 +1,6 @@
 # agents-radar
 
-A GitHub Actions workflow that runs every morning at 08:00 CST. It tracks GitHub activity from major AI CLI tool repositories **and** scrapes official news, blog posts, research, and documentation from Anthropic and OpenAI, then publishes Chinese-language daily digests as GitHub Issues and committed Markdown files.
+A GitHub Actions workflow that runs every morning at 08:00 CST. It tracks GitHub activity from AI CLI tools, OpenClaw and its peer projects in the AI agent ecosystem, and scrapes official news and research from Anthropic and OpenAI, then publishes Chinese-language daily digests as GitHub Issues and committed Markdown files.
 
 ## Tracked sources
 
@@ -23,6 +23,23 @@ A GitHub Actions workflow that runs every morning at 08:00 CST. It tracks GitHub
 
 PRs and issues are fetched without a date filter and sorted by popularity (comment count), so the report always reflects the most actively discussed skills — not just the newest.
 
+### OpenClaw + AI agent ecosystem (GitHub)
+
+OpenClaw is tracked as the primary reference project. Nine peer projects in the personal AI assistant / autonomous agent space are tracked alongside it for cross-ecosystem comparison.
+
+| Project | Repository | Stars |
+|---------|-----------|-------|
+| OpenClaw | [openclaw/openclaw](https://github.com/openclaw/openclaw) | — |
+| Zeroclaw | [zeroclaw-labs/zeroclaw](https://github.com/zeroclaw-labs/zeroclaw) | 19.6k |
+| EasyClaw | [gaoyangz77/easyclaw](https://github.com/gaoyangz77/easyclaw) | 87 |
+| LobsterAI | [netease-youdao/LobsterAI](https://github.com/netease-youdao/LobsterAI) | 2.6k |
+| ZeptoClaw | [qhkm/zeptoclaw](https://github.com/qhkm/zeptoclaw) | 372 |
+| NanoBot | [HKUDS/nanobot](https://github.com/HKUDS/nanobot) | 25.5k |
+| PicoClaw | [sipeed/picoclaw](https://github.com/sipeed/picoclaw) | 20.2k |
+| NanoClaw | [qwibitai/nanoclaw](https://github.com/qwibitai/nanoclaw) | 15k |
+| IronClaw | [nearai/ironclaw](https://github.com/nearai/ironclaw) | 3.5k |
+| TinyClaw | [TinyAGI/tinyclaw](https://github.com/TinyAGI/tinyclaw) | 2.7k |
+
 ### Official web content (sitemap-based)
 
 | Organization | Site | Tracked sections |
@@ -34,10 +51,10 @@ New articles are detected by comparing sitemap `lastmod` timestamps against a pe
 
 ## Features
 
-- Fetches issues, pull requests, and releases updated in the last 24 hours across all CLI repos
+- Fetches issues, pull requests, and releases updated in the last 24 hours across all tracked repos
 - Tracks trending Claude Code Skills — sorted by community engagement, not recency
-- Generates a per-tool GitHub summary for each CLI repository
-- Generates a cross-tool comparative analysis covering trends, feature overlap, and ecosystem positioning
+- Generates a per-tool summary for each CLI repository and a cross-tool comparative analysis
+- Generates a deep OpenClaw project report plus a cross-ecosystem comparison against 9 peer projects
 - Scrapes official Anthropic and OpenAI web content via sitemaps; detects new articles incrementally
 - Publishes GitHub Issues for each report type; commits Markdown files to `digests/YYYY-MM-DD/`
 - Runs on a daily schedule via GitHub Actions; supports manual triggering
@@ -85,7 +102,7 @@ Files are written to `digests/YYYY-MM-DD/`:
 | File | Content | GitHub Issue label |
 |------|---------|-------------------|
 | `ai-cli.md` | CLI digest — cross-tool comparison + per-tool details | `digest` |
-| `openclaw.md` | OpenClaw project digest | `openclaw` |
+| `openclaw.md` | OpenClaw deep report + cross-ecosystem comparison + 9 peer details | `openclaw` |
 | `ai-web.md` | Official web content report (only written when new content exists) | `web` |
 
 A shared state file `digests/web-state.json` tracks which web URLs have been seen; it is committed alongside the daily digests.
@@ -107,6 +124,30 @@ A shared state file `digests/web-state.json` tracks which web URLs have been see
   <details> Kimi Code CLI  — ...
   <details> OpenCode       — ...
   <details> Qwen Code      — ...
+```
+
+`openclaw.md` structure (written in Chinese):
+```
+Issues: N | PRs: N | 覆盖项目: 10 个
+
+## OpenClaw 项目深度报告
+  今日速览 / 版本发布 / 项目进展 / 社区热点 /
+  Bug稳定性 / 功能请求 / 用户反馈 / 待处理积压
+
+## 横向生态对比
+  生态全景 / 活跃度对比表 / OpenClaw定位分析 /
+  共同技术方向 / 差异化定位 / 社区热度与成熟度 / 趋势信号
+
+## 同赛道项目详细报告
+  <details> Zeroclaw   — 今日速览 / 版本发布 / 项目进展 / ...（8节）
+  <details> EasyClaw   — ...
+  <details> LobsterAI  — ...
+  <details> ZeptoClaw  — ...
+  <details> NanoBot    — ...
+  <details> PicoClaw   — ...
+  <details> NanoClaw   — ...
+  <details> IronClaw   — ...
+  <details> TinyClaw   — ...
 ```
 
 `ai-web.md` structure (written in Chinese):
