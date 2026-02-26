@@ -20,7 +20,9 @@ import {
   type RepoDigest,
   buildCliPrompt,
   buildOpenclawPrompt,
+  buildPeerPrompt,
   buildComparisonPrompt,
+  buildPeersComparisonPrompt,
   buildSkillsPrompt,
   buildWebReportPrompt,
 } from "./prompts.ts";
@@ -48,6 +50,19 @@ const OPENCLAW: RepoConfig = {
   name: "OpenClaw",
   paginated: true,
 };
+
+/** Peer projects in the personal AI assistant / agent space — tracked for cross-ecosystem comparison. */
+const OPENCLAW_PEERS: RepoConfig[] = [
+  { id: "zeroclaw",  repo: "zeroclaw-labs/zeroclaw",   name: "Zeroclaw"  },
+  { id: "easyclaw",  repo: "gaoyangz77/easyclaw",       name: "EasyClaw"  },
+  { id: "lobsterai", repo: "netease-youdao/LobsterAI",  name: "LobsterAI" },
+  { id: "zeptoclaw", repo: "qhkm/zeptoclaw",            name: "ZeptoClaw" },
+  { id: "nanobot",   repo: "HKUDS/nanobot",             name: "NanoBot",  paginated: true },
+  { id: "picoclaw",  repo: "sipeed/picoclaw",            name: "PicoClaw", paginated: true },
+  { id: "nanoclaw",  repo: "qwibitai/nanoclaw",          name: "NanoClaw"  },
+  { id: "ironclaw",  repo: "nearai/ironclaw",            name: "IronClaw"  },
+  { id: "tinyclaw",  repo: "TinyAGI/tinyclaw",           name: "TinyClaw"  },
+];
 
 /** Claude Code Skills — trending skills tracked separately, no date filter. */
 const CLAUDE_SKILLS_REPO = "anthropics/skills";
@@ -81,7 +96,7 @@ async function main(): Promise<void> {
 
   // ── 1. Fetch all repos + web content in parallel ───────────────────────────
 
-  const allConfigs = [...CLI_REPOS, OPENCLAW];
+  const allConfigs = [...CLI_REPOS, OPENCLAW, ...OPENCLAW_PEERS];
   console.log(`  Tracking: ${allConfigs.map((r) => r.id).join(", ")}, claude-code-skills, web`);
 
   const webState = loadWebState();
@@ -115,12 +130,14 @@ async function main(): Promise<void> {
     ]),
   ]);
 
-  const fetchedCli      = fetched.filter((f) => f.cfg.id !== OPENCLAW.id);
+  const peerIds         = new Set(OPENCLAW_PEERS.map((p) => p.id));
+  const fetchedCli      = fetched.filter((f) => f.cfg.id !== OPENCLAW.id && !peerIds.has(f.cfg.id));
   const fetchedOpenclaw = fetched.find((f) => f.cfg.id === OPENCLAW.id)!;
+  const fetchedPeers    = fetched.filter((f) => peerIds.has(f.cfg.id));
 
-  // ── 2. Generate CLI summaries + OpenClaw summary + Skills summary in parallel
+  // ── 2. Generate CLI summaries + OpenClaw summary + Skills summary + Peer summaries in parallel
 
-  const [cliDigests, openclawSummary, skillsSummary] = await Promise.all([
+  const [cliDigests, openclawSummary, skillsSummary, peerDigests] = await Promise.all([
     Promise.all(
       fetchedCli.map(async ({ cfg, issues, prs, releases }): Promise<RepoDigest> => {
         const hasData = issues.length || prs.length || releases.length;
@@ -162,12 +179,41 @@ async function main(): Promise<void> {
         return "⚠️ Skills 摘要生成失败。";
       }
     })(),
+    Promise.all(
+      fetchedPeers.map(async ({ cfg, issues, prs, releases }): Promise<RepoDigest> => {
+        const hasData = issues.length || prs.length || releases.length;
+        if (!hasData) {
+          console.log(`  [${cfg.id}] No activity, skipping LLM call`);
+          return { config: cfg, issues, prs, releases, summary: "过去24小时无活动。" };
+        }
+        console.log(`  [${cfg.id}] Calling LLM for peer summary...`);
+        try {
+          return { config: cfg, issues, prs, releases,
+                   summary: await callLlm(buildPeerPrompt(cfg, issues, prs, releases, dateStr)) };
+        } catch (err) {
+          console.error(`  [${cfg.id}] LLM call failed: ${err}`);
+          return { config: cfg, issues, prs, releases, summary: "⚠️ 摘要生成失败。" };
+        }
+      }),
+    ),
   ]);
 
-  // ── 3. Generate CLI cross-tool comparison ──────────────────────────────────
+  // Build openclawDigest for peers comparison (reuses openclawSummary — zero extra LLM call)
+  const openclawDigest: RepoDigest = {
+    config: OPENCLAW,
+    issues: fetchedOpenclaw.issues,
+    prs: fetchedOpenclaw.prs,
+    releases: fetchedOpenclaw.releases,
+    summary: openclawSummary,
+  };
 
-  console.log("  Calling LLM for CLI comparative analysis...");
-  const comparison = await callLlm(buildComparisonPrompt(cliDigests, dateStr));
+  // ── 3. Generate CLI comparison + peers comparison in parallel ──────────────
+
+  console.log("  Calling LLM for CLI comparative analysis + peers comparison...");
+  const [comparison, peersComparison] = await Promise.all([
+    callLlm(buildComparisonPrompt(cliDigests, dateStr)),
+    callLlm(buildPeersComparisonPrompt(openclawDigest, peerDigests, dateStr)),
+  ]);
 
   const footer = autoGenFooter();
 
@@ -217,6 +263,39 @@ async function main(): Promise<void> {
     `Issues: ${ocIssues.length} | PRs: ${ocPrs.length} | 生成时间: ${utcStr} UTC\n\n` +
     openclawSummary + footer;
   console.log(`  Saved ${saveFile(openclawContent, dateStr, "openclaw.md")}`);
+
+  // ── 5b. Save OpenClaw peers comparison report ──────────────────────────────
+
+  const peersRepoLinks =
+    `- [OpenClaw](https://github.com/${OPENCLAW.repo})\n` +
+    OPENCLAW_PEERS.map((p) => `- [${p.name}](https://github.com/${p.repo})`).join("\n");
+
+  const peersToolSections = [openclawDigest, ...peerDigests]
+    .map((d) =>
+      [
+        `<details>`,
+        `<summary><strong>${d.config.name}</strong> — <a href="https://github.com/${d.config.repo}">${d.config.repo}</a></summary>`,
+        ``,
+        d.summary,
+        ``,
+        `</details>`,
+      ].join("\n"),
+    )
+    .join("\n\n");
+
+  const peersContent =
+    `# AI 智能体生态对比日报 ${dateStr}\n\n` +
+    `> 生成时间: ${utcStr} UTC | 覆盖项目: ${1 + OPENCLAW_PEERS.length} 个（含 OpenClaw）\n\n` +
+    `${peersRepoLinks}\n\n` +
+    `---\n\n` +
+    `## 横向对比\n\n` +
+    peersComparison +
+    `\n\n---\n\n` +
+    `## 各项目详细报告\n\n` +
+    peersToolSections +
+    footer;
+
+  console.log(`  Saved ${saveFile(peersContent, dateStr, "openclaw-peers.md")}`);
 
   // ── 6. Web report ──────────────────────────────────────────────────────────
 
@@ -275,6 +354,9 @@ async function main(): Promise<void> {
 
     const openclawUrl = await createGitHubIssue(`🦞 OpenClaw 项目动态日报 ${dateStr}`, openclawContent, "openclaw");
     console.log(`  Created OpenClaw issue: ${openclawUrl}`);
+
+    const peersUrl = await createGitHubIssue(`🤖 AI 智能体生态对比日报 ${dateStr}`, peersContent, "peers");
+    console.log(`  Created peers issue: ${peersUrl}`);
   }
 
   console.log("Done!");
