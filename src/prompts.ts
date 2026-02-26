@@ -3,6 +3,7 @@
  */
 
 import type { RepoConfig, GitHubItem, GitHubRelease } from "./github.ts";
+import type { WebFetchResult } from "./web.ts";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -233,3 +234,66 @@ ${sections}
 语言要求：简洁专业，有数据支撑，适合技术决策者和开发者阅读。
 `;
 }
+
+export function buildWebReportPrompt(results: WebFetchResult[], dateStr: string): string {
+  const isAnyFirstRun = results.some((r) => r.isFirstRun);
+
+  const siteSections = results
+    .map(({ siteName, isFirstRun, newItems, totalDiscovered }) => {
+      const mode = isFirstRun
+        ? `首次全量抓取（sitemap 共 ${totalDiscovered} 条 URL，以下为最新 ${newItems.length} 篇正文内容）`
+        : `今日增量更新，共 ${newItems.length} 篇新内容`;
+
+      if (newItems.length === 0) return `## ${siteName}\n\n（${mode}，暂无可供分析的内容。）`;
+
+      const itemsText = newItems
+        .map((item) =>
+          [
+            `### [${item.title || item.url}](${item.url})`,
+            `- 分类: ${item.category} | 发布/更新: ${item.lastmod.slice(0, 10) || "未知"}`,
+            `- 内容节选: ${item.content || "（无法提取文本内容）"}`,
+          ].join("\n"),
+        )
+        .join("\n\n");
+
+      return `## ${siteName}（${mode}）\n\n${itemsText}`;
+    })
+    .join("\n\n---\n\n");
+
+  const firstRunNote = isAnyFirstRun
+    ? "本次为首次全量抓取，请重点梳理各站点的内容格局、历史脉络与核心主题，而非仅关注单篇文章。"
+    : "本次为增量更新，请聚焦今日新增内容，并结合上下文判断其战略意义。";
+
+  return `你是一位专注于 AI 领域的深度内容分析师，擅长从官方公告、技术博客、研究论文和产品文档中提炼战略信号。
+
+以下是 ${dateStr} 从 Anthropic（claude.com / anthropic.com）和 OpenAI（openai.com）官网抓取的内容，${firstRunNote}
+
+${siteSections}
+
+---
+
+请生成一份详实的《AI 官方内容追踪报告》，包含以下部分：
+
+1. **今日速览** — 3~5 句话概括最重要的新发布或动向，点出核心亮点
+
+2. **Anthropic / Claude 内容精选** — 按分类（news / research / engineering / learn 等）逐条整理重要内容：
+   - 每篇用 2~4 句话提炼核心观点、技术细节或业务意义
+   - 标注发布日期和原文链接
+   - 如首次全量，按时间线梳理重要里程碑
+
+3. **OpenAI 内容精选** — 同上，按 research / release / company / safety 等分类整理
+
+4. **战略信号解读** — 基于两家公司的发布节奏和内容重点，分析：
+   - 各自近期的技术优先级（模型能力 / 安全 / 产品化 / 生态）
+   - 竞争态势：谁在引领议题，谁在跟进
+   - 对开发者和企业用户的潜在影响
+
+5. **值得关注的细节** — 从标题、措辞、发布时机中提取隐含信号，例如：
+   - 新兴词汇或话题的首次出现
+   - 某类主题的密集发布（可能预示产品节点）
+   - 政策、合规、安全方面的动向
+
+${isAnyFirstRun ? "6. **内容格局总览** — 首次全量独有：汇总两家公司各内容类别的数量分布，并说明各自的内容运营风格（学术导向 vs 产品导向 vs 用户故事等）\n\n" : ""}语言要求：中文，专业深入，内容详实，适合 AI 领域研究者、产品经理和技术决策者阅读。每个条目必须附上 GitHub/官网链接。
+`;
+}
+

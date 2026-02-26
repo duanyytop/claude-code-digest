@@ -12,12 +12,12 @@ const MODEL = process.env["ANTHROPIC_MODEL"] ?? "claude-sonnet-4-6";
 // LLM
 // ---------------------------------------------------------------------------
 
-export async function callLlm(prompt: string): Promise<string> {
+export async function callLlm(prompt: string, maxTokens = 4096): Promise<string> {
   // Reads ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL from env automatically
   const client = new Anthropic();
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 4096,
+    max_tokens: maxTokens,
     messages: [{ role: "user", content: prompt }],
   });
   const block = message.content[0];
