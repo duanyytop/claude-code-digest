@@ -1,0 +1,4 @@
+node_modules/
+dist/
+digests/
+pnpm-lock.yaml
