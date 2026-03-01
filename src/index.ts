@@ -65,6 +65,7 @@ const OPENCLAW_PEERS: RepoConfig[] = [
   { id: "nanoclaw", repo: "qwibitai/nanoclaw", name: "NanoClaw" },
   { id: "ironclaw", repo: "nearai/ironclaw", name: "IronClaw" },
   { id: "tinyclaw", repo: "TinyAGI/tinyclaw", name: "TinyClaw" },
+  { id: "copaw", repo: "agentscope-ai/CoPaw", name: "CoPaw" },
 ];
 
 /** Claude Code Skills — trending skills tracked separately, no date filter. */

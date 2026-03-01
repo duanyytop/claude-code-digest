@@ -47,6 +47,7 @@ OpenClaw is tracked as the primary reference project. Nine peer projects in the 
 | NanoClaw | [qwibitai/nanoclaw](https://github.com/qwibitai/nanoclaw) | 15k |
 | IronClaw | [nearai/ironclaw](https://github.com/nearai/ironclaw) | 3.5k |
 | TinyClaw | [TinyAGI/tinyclaw](https://github.com/TinyAGI/tinyclaw) | 2.7k |
+| CoPaw | [agentscope-ai/CoPaw](https://github.com/agentscope-ai/CoPaw) | — |
 
 ### GitHub AI Trending
 
