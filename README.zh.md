@@ -33,7 +33,7 @@ PR 和 Issue 不设时间过滤，按社区热度（评论数）排序，报告�
 
 ### OpenClaw + AI Agent 生态（GitHub）
 
-OpenClaw 作为重点追踪项目，同时横向对比 9 个同赛道项目，覆盖个人 AI 助手 / 自主 Agent 方向。
+OpenClaw 作为重点追踪项目，同时横向对比 10 个同赛道项目，覆盖个人 AI 助手 / 自主 Agent 方向。
 
 | 项目 | 仓库 | Stars |
 |------|------|-------|
@@ -74,7 +74,7 @@ LLM 负责过滤非 AI 项目，将结果按维度分类（AI 基础工具 / AI 
 - 抓取所有追踪仓库过去 24 小时内更新的 Issues、PR 和 Releases
 - 追踪热门 Claude Code Skills，按社区参与度而非时间排序
 - 为每个 CLI 仓库生成单独摘要，并输出跨工具横向对比分析
-- 生成 OpenClaw 深度项目报告，并与 9 个同赛道项目进行横向对比
+- 生成 OpenClaw 深度项目报告，并与 10 个同赛道项目进行横向对比
 - 通过 Sitemap 抓取 Anthropic 和 OpenAI 官网内容，增量检测新文章
 - 每日监测 GitHub Trending + 搜索 6 个 AI 主题标签，按维度分类并提炼趋势信号
 - 以 GitHub Issues 形式发布报告，同时提交 Markdown 文件至 `digests/YYYY-MM-DD/`
@@ -123,7 +123,7 @@ pnpm start
 | 文件 | 内容 | GitHub Issue 标签 |
 |------|------|------------------|
 | `ai-cli.md` | CLI 简报 — 跨工具横向对比 + 各工具详细报告 | `digest` |
-| `ai-agents.md` | OpenClaw 深度报告 + 横向生态对比 + 9 个同赛道项目详情 | `openclaw` |
+| `ai-agents.md` | OpenClaw 深度报告 + 横向生态对比 + 10 个同赛道项目详情 | `openclaw` |
 | `ai-web.md` | 官网内容报告（仅在有新内容时生成） | `web` |
 | `ai-trending.md` | GitHub AI 趋势热榜 — 按维度分类 + 趋势信号分析（仅在有数据时生成） | `trending` |
 
@@ -170,6 +170,7 @@ Issues: N | PRs: N | 覆盖项目: 10 个
   <details> NanoClaw   — ...
   <details> IronClaw   — ...
   <details> TinyClaw   — ...
+  <details> CoPaw      — ...
 ```
 
 `ai-web.md` 结构：

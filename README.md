@@ -33,7 +33,7 @@ PRs and issues are fetched without a date filter and sorted by popularity (comme
 
 ### OpenClaw + AI agent ecosystem (GitHub)
 
-OpenClaw is tracked as the primary reference project. Nine peer projects in the personal AI assistant / autonomous agent space are tracked alongside it for cross-ecosystem comparison.
+OpenClaw is tracked as the primary reference project. Ten peer projects in the personal AI assistant / autonomous agent space are tracked alongside it for cross-ecosystem comparison.
 
 | Project | Repository | Stars |
 |---------|-----------|-------|
@@ -74,7 +74,7 @@ New articles are detected by comparing sitemap `lastmod` timestamps against a pe
 - Fetches issues, pull requests, and releases updated in the last 24 hours across all tracked repos
 - Tracks trending Claude Code Skills — sorted by community engagement, not recency
 - Generates a per-tool summary for each CLI repository and a cross-tool comparative analysis
-- Generates a deep OpenClaw project report plus a cross-ecosystem comparison against 9 peer projects
+- Generates a deep OpenClaw project report plus a cross-ecosystem comparison against 10 peer projects
 - Scrapes official Anthropic and OpenAI web content via sitemaps; detects new articles incrementally
 - Monitors GitHub Trending daily + searches 6 AI topic tags; classifies repos by dimension and extracts trend signals
 - Publishes GitHub Issues for each report type; commits Markdown files to `digests/YYYY-MM-DD/`
@@ -123,7 +123,7 @@ Files are written to `digests/YYYY-MM-DD/`:
 | File | Content | GitHub Issue label |
 |------|---------|-------------------|
 | `ai-cli.md` | CLI digest — cross-tool comparison + per-tool details | `digest` |
-| `ai-agents.md` | OpenClaw deep report + cross-ecosystem comparison + 9 peer details | `openclaw` |
+| `ai-agents.md` | OpenClaw deep report + cross-ecosystem comparison + 10 peer details | `openclaw` |
 | `ai-web.md` | Official web content report (only written when new content exists) | `web` |
 | `ai-trending.md` | GitHub AI trending report — repos classified by dimension + trend signals (only written when data is available) | `trending` |
 
@@ -170,6 +170,7 @@ Issues: N | PRs: N | 覆盖项目: 10 个
   <details> NanoClaw   — ...
   <details> IronClaw   — ...
   <details> TinyClaw   — ...
+  <details> CoPaw      — ...
 ```
 
 `ai-web.md` structure (written in Chinese):
