@@ -38,16 +38,16 @@ OpenClaw is tracked as the primary reference project. Ten peer projects in the p
 | Project | Repository | Stars |
 |---------|-----------|-------|
 | OpenClaw | [openclaw/openclaw](https://github.com/openclaw/openclaw) | 240.5k |
-| Zeroclaw | [zeroclaw-labs/zeroclaw](https://github.com/zeroclaw-labs/zeroclaw) | 21.2k |
-| EasyClaw | [gaoyangz77/easyclaw](https://github.com/gaoyangz77/easyclaw) | 102 |
-| LobsterAI | [netease-youdao/LobsterAI](https://github.com/netease-youdao/LobsterAI) | 3.0k |
-| ZeptoClaw | [qhkm/zeptoclaw](https://github.com/qhkm/zeptoclaw) | 394 |
 | NanoBot | [HKUDS/nanobot](https://github.com/HKUDS/nanobot) | 26.9k |
+| Zeroclaw | [zeroclaw-labs/zeroclaw](https://github.com/zeroclaw-labs/zeroclaw) | 21.2k |
 | PicoClaw | [sipeed/picoclaw](https://github.com/sipeed/picoclaw) | 21.1k |
 | NanoClaw | [qwibitai/nanoclaw](https://github.com/qwibitai/nanoclaw) | 16.6k |
 | IronClaw | [nearai/ironclaw](https://github.com/nearai/ironclaw) | 3.9k |
+| LobsterAI | [netease-youdao/LobsterAI](https://github.com/netease-youdao/LobsterAI) | 3.0k |
 | TinyClaw | [TinyAGI/tinyclaw](https://github.com/TinyAGI/tinyclaw) | 2.8k |
 | CoPaw | [agentscope-ai/CoPaw](https://github.com/agentscope-ai/CoPaw) | 2.2k |
+| ZeptoClaw | [qhkm/zeptoclaw](https://github.com/qhkm/zeptoclaw) | 394 |
+| EasyClaw | [gaoyangz77/easyclaw](https://github.com/gaoyangz77/easyclaw) | 102 |
 
 ### GitHub AI Trending
 

@@ -56,16 +56,16 @@ const OPENCLAW: RepoConfig = {
 
 /** Peer projects in the personal AI assistant / agent space — tracked for cross-ecosystem comparison. */
 const OPENCLAW_PEERS: RepoConfig[] = [
-  { id: "zeroclaw", repo: "zeroclaw-labs/zeroclaw", name: "Zeroclaw" },
-  { id: "easyclaw", repo: "gaoyangz77/easyclaw", name: "EasyClaw" },
-  { id: "lobsterai", repo: "netease-youdao/LobsterAI", name: "LobsterAI" },
-  { id: "zeptoclaw", repo: "qhkm/zeptoclaw", name: "ZeptoClaw" },
   { id: "nanobot", repo: "HKUDS/nanobot", name: "NanoBot", paginated: true },
+  { id: "zeroclaw", repo: "zeroclaw-labs/zeroclaw", name: "Zeroclaw" },
   { id: "picoclaw", repo: "sipeed/picoclaw", name: "PicoClaw", paginated: true },
   { id: "nanoclaw", repo: "qwibitai/nanoclaw", name: "NanoClaw" },
   { id: "ironclaw", repo: "nearai/ironclaw", name: "IronClaw" },
+  { id: "lobsterai", repo: "netease-youdao/LobsterAI", name: "LobsterAI" },
   { id: "tinyclaw", repo: "TinyAGI/tinyclaw", name: "TinyClaw" },
   { id: "copaw", repo: "agentscope-ai/CoPaw", name: "CoPaw" },
+  { id: "zeptoclaw", repo: "qhkm/zeptoclaw", name: "ZeptoClaw" },
+  { id: "easyclaw", repo: "gaoyangz77/easyclaw", name: "EasyClaw" },
 ];
 
 /** Claude Code Skills — trending skills tracked separately, no date filter. */
