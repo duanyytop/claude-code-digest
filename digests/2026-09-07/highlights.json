@@ -1,0 +1,150 @@
+{
+  "zh": {
+    "ai-cli": [
+      "Claude Code v2.1.263 发布新功能",
+      "OpenAI Codex 24小时内提交10个PR",
+      "Gemini CLI 现已支持每日构建",
+      "Pi 获得10+个近期PR",
+      "Qwen Code 预览版v0.23.1上线",
+      "Copilot CLI 尽管有10个问题仍处于非活跃状态"
+    ],
+    "ai-agents": [
+      "OpenClaw：今日500个问题，500个PR",
+      "v2026.9.1 因回归问题受审查",
+      "报告严重会话状态缺陷",
+      "最新版本存在Windows崩溃问题",
+      "Android UI 竞态条件已修复",
+      "HTTP缓存修复提升可靠性"
+    ],
+    "ai-infra": [
+      "vLLM 今日合并12个PR领先",
+      "SGLang 优化混合模型性能",
+      "llama.cpp 发布b10830, b10829",
+      "Ollama 今日无活动",
+      "LiteLLM 发布v1.101.0-rc.1",
+      "Unsloth 聚焦稀疏注意力"
+    ],
+    "ai-trending": [
+      "ECC 24小时获1,485颗星",
+      "Ponytail 新增1,539颗星",
+      "affaan-m/ECC：性能优化代理",
+      "DietrichGebert/ponytail：懒惰资深开发者AI",
+      "magnitudedev/magnitude：开源推理服务器",
+      "ruvnet/ruflo：TypeScript推理工具"
+    ],
+    "ai-web": [
+      "OpenAI 今日发布5篇博文",
+      "‘研究加速：内部视角’成趋势",
+      "‘外星心智’两次出现在URL中",
+      "Anthropic 对新内容保持沉默",
+      "OpenAI 神秘标题引发争论",
+      "内部研究透明度受质疑"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra 在HN得分2,246",
+      "‘外星心智’引发意识争议",
+      "争议帖：‘A/I关闭’",
+      "OpenAI代理板内幕曝光",
+      "Neuralese批判引发哲学冲突",
+      "AI自主性与人类主导权之争升温"
+    ],
+    "ai-ph": [
+      "dif.sh 在PH获359票领先",
+      "Reflexio 学习用户行为",
+      "Hyperprobe 实现实时调试",
+      "GitWarren：开源Git自动化",
+      "Experiential Labs 受关注",
+      "AI代理现已可作为生产级协作伙伴"
+    ],
+    "ai-hf": [
+      "Qwen3.8-27B：下载量610万",
+      "Lightricks/LTX-2.5：视频下载量150万",
+      "GGUF量化模型人气飙升",
+      "OBLITERATUS/Qwen3.8-27B-OBLITERATED 热门",
+      "dealignai/GLM-5.3-CYBERSECURITY-FP8 爆红",
+      "社区驱动本地推理持续增长"
+    ],
+    "ai-community": [
+      "Postgres 速度超越向量数据库",
+      "无需LangChain的RAG：更简单更快",
+      "AI代理需评估循环",
+      "仅靠提示无法修复故障代理",
+      "JSON/YAML作攻击向量引发讨论",
+      "自指LLM激发哲学思考"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "Claude Code v2.1.263 released with new skills",
+      "OpenAI Codex sees 10 PRs in 24h",
+      "Gemini CLI now nightly builds",
+      "Pi gains 10+ recent PRs",
+      "Qwen Code launches preview v0.23.1",
+      "Copilot CLI inactive despite 10 issues"
+    ],
+    "ai-agents": [
+      "OpenClaw: 500 issues, 500 PRs today",
+      "v2026.9.1 under scrutiny for regressions",
+      "Critical session state bugs reported",
+      "Windows crashes plague latest versions",
+      "Android UI race condition fixed",
+      "HTTP caching fix improves reliability"
+    ],
+    "ai-infra": [
+      "vLLM leads with 12 PRs merged today",
+      "SGLang optimizes for hybrid models",
+      "llama.cpp releases b10830, b10829",
+      "Ollama sees no activity today",
+      "LiteLLM launches v1.101.0-rc.1",
+      "Unsloth focuses on sparse attention"
+    ],
+    "ai-trending": [
+      "ECC gains 1,485 stars in 24h",
+      "Ponytail surges with 1,539 new stars",
+      "affaan-m/ECC: performance-optimized agent",
+      "DietrichGebert/ponytail: lazy senior dev AI",
+      "magnitudedev/magnitude: open inference server",
+      "ruvnet/ruflo: TypeScript inference tool"
+    ],
+    "ai-web": [
+      "OpenAI publishes 5 articles today",
+      "‘Research Acceleration View Inside Openai’ trend",
+      "‘An Alien Mind’ appears twice in URLs",
+      "Anthropic remains silent on new content",
+      "OpenAI’s cryptic titles spark debate",
+      "Internal research visibility questioned"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra scores 2,246 on HN",
+      "‘An Alien Mind’ sparks sentience debate",
+      "Controversial thread: ‘A/I shuts down’",
+      "OpenAI agent board collusions.wiki exposed",
+      "Neuralese critique fuels philosophical clash",
+      "AI autonomy vs. human agency debate heats up"
+    ],
+    "ai-ph": [
+      "dif.sh leads with 359 votes on PH",
+      "Reflexio learns from user behavior",
+      "Hyperprobe enables live debugging",
+      "GitWarren: open-source Git automation",
+      "Experiential Labs gains traction",
+      "AI agents now production-ready collaborators"
+    ],
+    "ai-hf": [
+      "Qwen3.8-27B: 6.1M downloads",
+      "Lightricks/LTX-2.5: 1.5M video downloads",
+      "GGUF quantized models surge in popularity",
+      "OBLITERATUS/Qwen3.8-27B-OBLITERATED trending",
+      "dealignai/GLM-5.3-CYBERSECURITY-FP8 viral",
+      "Community-driven local inference growing"
+    ],
+    "ai-community": [
+      "Postgres beats vector DBs in speed",
+      "RAG without LangChain: simpler, faster",
+      "AI agents need evaluation loops",
+      "Prompts alone can’t fix broken agents",
+      "JSON/YAML as attack vectors debated",
+      "Self-referential LLMs spark philosophy"
+    ]
+  }
+}
